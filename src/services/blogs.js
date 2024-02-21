@@ -20,4 +20,14 @@ const getAll = () => {
   return request.then((response) => response.data);
 };
 
-export default { getAll, create, setToken };
+const update = async (ID, newBlog) => {
+  const newUrl = baseUrl.concat(`/${ID}`);
+  return axios
+    .put(newUrl, newBlog)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => console.log(error));
+};
+
+export default { getAll, create, setToken, update };

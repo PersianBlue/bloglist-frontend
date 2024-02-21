@@ -66,8 +66,12 @@ const App = () => {
     blogRef.current.toggleVisibility();
     try {
       const returnedBlog = await blogService.create(blogDetails);
-      console.log(returnedBlog); //this returns a blog with the user property only set to the user's ID. Needs to be fixed
-      setBlogs(blogs.concat(returnedBlog));
+      console.log(returnedBlog);
+      //Replace the old blog with the new blog on the frontend
+      const updatedBlogs = blogs.map((b) =>
+        b.id === returnedBlog.id ? returnedBlog : b
+      );
+      setBlogs(updatedBlogs);
       console.log("Blog posted successfully");
       setNotificationType("alert");
       setNotificationMsg(
@@ -78,6 +82,30 @@ const App = () => {
       console.log(error);
       setNotificationType("error");
       setNotificationMsg(`Unable to create new blog`);
+      removeNotification();
+    }
+  };
+
+  const handleLikes = async (blog) => {
+    try {
+      console.log("liking this post");
+      const updatedBlog = {
+        ...blog,
+        likes: blog.likes++,
+        user: blog.user.id,
+      };
+      const returnedBlog = await blogService.update(blog.id, updatedBlog);
+      setBlogs(blogs.concat(returnedBlog));
+      console.log("Updated likes successfully");
+      setNotificationType("alert");
+      setNotificationMsg(
+        `You liked ${updatedBlog.title} by ${updatedBlog.author}`
+      );
+      removeNotification();
+    } catch (error) {
+      console.log(error);
+      setNotificationType("error");
+      setNotificationMsg(`Error udpating likes`);
       removeNotification();
     }
   };
@@ -125,7 +153,7 @@ const App = () => {
 
       <p>{user.name} logged in</p>
       {blogs.map((blog) => (
-        <Blog key={blog.id} blog={blog} />
+        <Blog key={blog.id} blog={blog} handleLikes={handleLikes} />
       ))}
 
       <div>

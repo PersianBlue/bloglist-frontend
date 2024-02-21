@@ -1,17 +1,13 @@
 import { useState } from "react";
 
-const Blog = ({ blog }) => {
+const Blog = ({ blog, handleLikes }) => {
   const [showDetails, setShowDetails] = useState(false);
-
-  const handleLikes = (event) => {
-    console.log("liking this post");
-  };
 
   const details = () => {
     return (
       <div>
         <p>Likes: {blog.likes} </p>
-        <button onClick={(event) => handleLikes(event)}>Like post</button>
+        <button onClick={() => handleLikes(blog)}>Like post</button>
         <p>
           Url:{" "}
           <a href={blog.url} target={"_blank"}>
