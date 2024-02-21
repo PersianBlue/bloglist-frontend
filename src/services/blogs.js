@@ -21,9 +21,13 @@ const getAll = () => {
 };
 
 const update = async (ID, newBlog) => {
+  const config = {
+    headers: { Authorization: token },
+  };
+
   const newUrl = baseUrl.concat(`/${ID}`);
   return axios
-    .put(newUrl, newBlog)
+    .put(newUrl, newBlog, config)
     .then((response) => {
       return response.data;
     })

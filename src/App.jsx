@@ -67,11 +67,6 @@ const App = () => {
     try {
       const returnedBlog = await blogService.create(blogDetails);
       console.log(returnedBlog);
-      //Replace the old blog with the new blog on the frontend
-      const updatedBlogs = blogs.map((b) =>
-        b.id === returnedBlog.id ? returnedBlog : b
-      );
-      setBlogs(updatedBlogs);
       console.log("Blog posted successfully");
       setNotificationType("alert");
       setNotificationMsg(
@@ -91,11 +86,16 @@ const App = () => {
       console.log("liking this post");
       const updatedBlog = {
         ...blog,
-        likes: blog.likes++,
+        likes: blog.likes + 1,
         user: blog.user.id,
       };
       const returnedBlog = await blogService.update(blog.id, updatedBlog);
-      setBlogs(blogs.concat(returnedBlog));
+      //Replace the old blog with the new blog on the frontend
+      console.log(returnedBlog);
+      const updatedBlogs = blogs.map((b) =>
+        b.id === returnedBlog.id ? returnedBlog : b
+      );
+      setBlogs(updatedBlogs);
       console.log("Updated likes successfully");
       setNotificationType("alert");
       setNotificationMsg(
