@@ -24,8 +24,8 @@ const update = async (ID, newBlog) => {
   const config = {
     headers: { Authorization: token },
   };
-
   const newUrl = baseUrl.concat(`/${ID}`);
+
   return axios
     .put(newUrl, newBlog, config)
     .then((response) => {
@@ -33,5 +33,12 @@ const update = async (ID, newBlog) => {
     })
     .catch((error) => console.log(error));
 };
+const remove = async (ID) => {
+  const config = { headers: { Authorization: token } };
+  const newUrl = baseUrl.concat(`/${ID}`);
 
-export default { getAll, create, setToken, update };
+  return axios.delete(newUrl, config).then((response) => {
+    return response.data;
+  });
+};
+export default { getAll, create, setToken, update, remove };

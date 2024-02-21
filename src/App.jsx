@@ -29,6 +29,36 @@ const App = () => {
     }
   }, []);
 
+  const sortbyLikes = (blog_a, blog_b) => {
+    return blog_a.likes - blog_b.likes;
+  };
+
+  const handleDelete = (blog) => {
+    if (
+      window.confirm(
+        `Are you sure you want to delete ${blog.title} by ${blog.author}?`
+      )
+    ) {
+      try {
+        blogService
+          .remove(blog.id)
+          .then((response) => {
+            blogService.getAll().then((blogs) => setBlogs(blogs));
+            console.log("Blog deleted successfully");
+          })
+          .catch((error) => {
+            console.log("Error deleting blog");
+            console.log(error);
+            window.alert(
+              `Error deleting ${blog.title} by ${blog.author}. Refresh and try again or contact support for assistance.`
+            );
+          });
+      } catch (error) {
+        // console.log(error);
+      }
+    }
+  };
+
   const handleLogin = async (event) => {
     event.preventDefault();
     console.log("Logging in:", username, password);
@@ -66,6 +96,7 @@ const App = () => {
     blogRef.current.toggleVisibility();
     try {
       const returnedBlog = await blogService.create(blogDetails);
+      blogService.getAll().then((blogs) => setBlogs(blogs));
       console.log(returnedBlog);
       console.log("Blog posted successfully");
       setNotificationType("alert");
@@ -152,8 +183,14 @@ const App = () => {
       <Notification message={notificationMsg} type={notificationType} />
 
       <p>{user.name} logged in</p>
-      {blogs.map((blog) => (
-        <Blog key={blog.id} blog={blog} handleLikes={handleLikes} />
+      {blogs.sort(sortbyLikes).map((blog) => (
+        <Blog
+          key={blog.id}
+          blog={blog}
+          handleLikes={handleLikes}
+          handleDelete={handleDelete}
+          viewingUser={user}
+        />
       ))}
 
       <div>
