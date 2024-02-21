@@ -1,4 +1,4 @@
-import React from "react";
+import PropTypes from "prop-types";
 import { useState, forwardRef, useImperativeHandle } from "react";
 const Togglable = forwardRef((props, refs) => {
   const [visible, setVisible] = useState(false);
@@ -22,11 +22,18 @@ const Togglable = forwardRef((props, refs) => {
         <button onClick={toggleVisibility}>{props.buttonLabel}</button>
       </div>
       <div style={showWhenVisible}>
-        {props.children}
+        {
+          // eslint-disable-next-line react/prop-types
+          props.children
+        }
         <button onClick={toggleVisibility}>cancel</button>
       </div>
     </div>
   );
 });
 
+Togglable.propTypes = {
+  buttonLabel: PropTypes.string.isRequired,
+};
+Togglable.displayName = "Togglable";
 export default Togglable;

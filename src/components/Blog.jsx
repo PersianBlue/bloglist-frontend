@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import PropTypes from "prop-types";
 const Blog = ({ blog, handleLikes, handleDelete, viewingUser }) => {
   const [showDetails, setShowDetails] = useState(false);
 
@@ -10,7 +10,7 @@ const Blog = ({ blog, handleLikes, handleDelete, viewingUser }) => {
         <button onClick={() => handleLikes(blog)}>Like post</button>
         <p>
           Url:{" "}
-          <a href={blog.url} target={"_blank"}>
+          <a href={blog.url} target={"_blank"} rel="nooopener noreferrer">
             {blog.url}
           </a>
         </p>
@@ -42,6 +42,23 @@ const Blog = ({ blog, handleLikes, handleDelete, viewingUser }) => {
       {showDetails ? details() : ""}
     </div>
   );
+};
+
+Blog.propTypes = {
+  blog: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    author: PropTypes.string.isRequired,
+    likes: PropTypes.number.isRequired,
+    url: PropTypes.string.isRequired,
+    user: PropTypes.shape({
+      name: PropTypes.string.isRequired,
+    }).isRequired,
+  }).isRequired,
+  handleLikes: PropTypes.func.isRequired,
+  handleDelete: PropTypes.func.isRequired,
+  viewingUser: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 export default Blog;

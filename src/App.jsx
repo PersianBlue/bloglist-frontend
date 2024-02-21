@@ -42,7 +42,7 @@ const App = () => {
       try {
         blogService
           .remove(blog.id)
-          .then((response) => {
+          .then(() => {
             blogService.getAll().then((blogs) => setBlogs(blogs));
             console.log("Blog deleted successfully");
           })
