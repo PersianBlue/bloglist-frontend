@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 const BlogForm = ({ createBlog }) => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
-  const [url, setUrl] = useState("url");
+  const [url, setUrl] = useState("");
 
   const addBlog = (event) => {
     event.preventDefault();
@@ -27,6 +27,7 @@ const BlogForm = ({ createBlog }) => {
             type="text"
             name="Title"
             value={title}
+            placeholder="Title"
             onChange={({ target }) => setTitle(target.value)}
           />{" "}
         </div>
@@ -37,15 +38,18 @@ const BlogForm = ({ createBlog }) => {
             name="Author"
             value={author}
             onChange={({ target }) => setAuthor(target.value)}
+            placeholder="Author"
           />
         </div>
         <div>
           Url{" "}
           <input
             type="text"
+            className="urlField"
             name="Url"
             value={url}
             onChange={({ target }) => setUrl(target.value)}
+            placeholder="Url"
           />
         </div>
         <button type="submit">Create blog</button>

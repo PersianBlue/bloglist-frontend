@@ -7,7 +7,7 @@ const Blog = ({ blog, handleLikes, handleDelete, viewingUser }) => {
     return (
       <div>
         <p>Likes: {blog.likes} </p>
-        <button onClick={() => handleLikes(blog)}>Like post</button>
+        <button onClick={() => handleLikes(blog)}>Like blog</button>
         <p>
           Url:{" "}
           <a href={blog.url} target={"_blank"} rel="nooopener noreferrer">
